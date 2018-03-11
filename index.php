@@ -1,4 +1,3 @@
-Teste, inicio de página
 <?php
 /**
  * Created by PhpStorm.
@@ -7,22 +6,8 @@ Teste, inicio de página
  * Time: 13:17
  */
 
-$host = '172.30.229.248:3306';
-$db   = "sampledb";
-$user = "userT3R";
-$pass = "0ijXrhfwFmdjU3B6";
-$dns = 'mysql:host=' . $host . ';dbname=' . $db . ';charset=utf8';
-echo $dns;
-echo ' após dns';
-try {
-
-
-    $conn = new PDO($dns, $user, $pass); //Estabelecendo uma conexão com o bd
-    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); //Estabelecendo atributos para caso de algum erro
-} catch(PDOException $e) {
-    echo 'ERROR: ' . $e->getMessage(); //Mostrando erro.
-}
-echo ' após tentavia de conexão';?>
+include_once "connect.php";
+;?>
 <html lang="pt">
 <head>
     <meta charset="UTF-8">
@@ -65,7 +50,7 @@ echo ' após tentavia de conexão';?>
                                 <p>
                                     <h2>
                                         $photo->namePhoto
-                                        <img src='img/del.png' title='Excluir foto' align='right' width='5%' height='3%'/>
+                                        <a class='del' data-id='$photo->idPhoto' href=''><img src='img/del.png' title='Excluir foto' align='right' width='5%' height='3%'/></a>
                                     </h2>
                                     $photo->descPhoto
                                     </p>
@@ -91,6 +76,7 @@ echo ' após tentavia de conexão';?>
                 </div>
                 <form action="save.php" method="POST" enctype="multipart/form-data" id="insertPhoto">
                 <div class="modal-body">
+                        <input name="acao" value="insert" type="hidden"/>
                         <p><label for="photo">Enviar foto</label> <input type="file" name="photo" required/></p>
                         <p><label for="namePhoto">Titulo da Foto</label> <input type="text" id="namePhoto" name="namePhoto" maxlength="40" required></p>
                         <p><label for="descPhoto">Descrição</label> <textarea rows="3" id="descPhoto" name="descPhoto" maxlength="255" required></textarea></p>
@@ -113,6 +99,27 @@ echo ' após tentavia de conexão';?>
              $('#formInclude').modal('show');
             }
         );
+
+        $('.del').click(function () {
+            a = confirm("Deseja apagar a imagem?");
+            if(a){
+                id = $(this).attr('data-id');
+                $.ajax({
+                    url: 'save.php',
+                    type: 'post',
+                    data: 'acao=del&id='+id,
+                    success: function (retorno) {
+                        if(retorno)
+                            location.reload();
+                        else
+                            alert('Não foi possível excluir a foto.');
+                    }
+                });
+            }
+
+            return false;
+        });
+
     });
 
 </script>
