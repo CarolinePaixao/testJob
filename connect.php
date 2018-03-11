@@ -6,7 +6,7 @@
  * Time: 16:21
  */
 try {
-    $database_host     = '172.30.229.248';
+    $database_host     = '172.30.229.248:3306';
     $database_username = 'userT3R';
     $database_password = '0ijXrhfwFmdjU3B6';
     $database_name     = 'sampledb';
