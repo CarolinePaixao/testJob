@@ -1,3 +1,4 @@
+Teste, inicio de página
 <?php
 /**
  * Created by PhpStorm.
@@ -57,11 +58,12 @@ echo ' após tentavia de conexão';?>
     <div class="container" >
         <div class="row">
             <?php
+            if($conn) {
                 $select = $conn->prepare("SELECT * FROM photo");
                 $select->execute();
                 $photos = $select->fetchAll(PDO::FETCH_OBJ);
-                if($photos){
-                    foreach ($photos as $photo){
+                if ($photos) {
+                    foreach ($photos as $photo) {
                         echo "<div class='col-3'>
                                 <img src='$photo->urlPhoto' title='$photo->namePhoto' width='100%' height='50%'/>
                                
@@ -74,9 +76,10 @@ echo ' após tentavia de conexão';?>
                                     </p>
                               </div>";
                     }
-                }else
-                    echo "Nenhuma imagem foi inserida."
-
+                } else
+                    echo "Nenhuma imagem foi inserida.";
+            }else
+                echo "Nenhuma imagem foi inserida.";
             ?>
         </div>
     </div>
